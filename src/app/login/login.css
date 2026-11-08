@@ -1,0 +1,33 @@
+/* Login page styles. All classes are prefixed "lg-" so they cannot affect other pages. */
+
+.lg-page { min-height: 100vh; background: var(--paper); font-family: var(--sans); color: var(--ink); }
+.lg-main { display: flex; justify-content: center; padding: 80px 5% 100px; }
+.lg-card { width: 100%; max-width: 480px; background: #fff; border: 1px solid var(--line); padding: 48px 44px; box-shadow: 0 1px 2px rgba(22, 42, 32, .05); }
+
+.lg-head { text-align: center; margin-bottom: 36px; }
+.lg-eyebrow { display: block; font-size: 9px; font-weight: 600; letter-spacing: 2.4px; color: var(--green-soft); }
+.lg-title { font-family: var(--serif); font-size: 44px; font-weight: 500; line-height: 1.1; margin: 10px 0 0; letter-spacing: -.6px; }
+.lg-text { color: var(--muted); font-size: 14px; line-height: 1.7; margin: 14px 0 0; }
+
+.lg-label { display: block; font-size: 10px; font-weight: 600; letter-spacing: 1.6px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.lg-field { position: relative; }
+.lg-field svg { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+.lg-input { width: 100%; height: 56px; border: 1px solid var(--line); background: #fff; padding: 0 18px 0 50px; font-family: inherit; font-size: 15px; color: var(--ink); outline: none; border-radius: 0; transition: border-color .2s; }
+.lg-input::placeholder { color: #a3a89f; }
+.lg-input:focus { border-color: var(--green); }
+
+.lg-error { color: #b91c1c; font-size: 13px; margin: 16px 0 0; }
+
+/* Same look as the site's main buttons, but full width and taller */
+.lg-btn { width: 100%; min-height: 58px; margin-top: 24px; border: 1px solid transparent; background: var(--green); color: #fff; display: inline-flex; align-items: center; justify-content: center; gap: 14px; font-family: inherit; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: background .2s, transform .2s; }
+.lg-btn:hover { background: var(--green-deep); transform: translateY(-2px); }
+.lg-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+.lg-sent { text-align: center; padding: 8px 0; }
+.lg-sent svg { color: var(--green); margin: 0 auto; display: block; }
+.lg-sent .lg-title { font-size: 38px; margin-top: 24px; }
+.lg-sent .lg-text { font-size: 15px; }
+.lg-sent strong { color: var(--ink); font-weight: 600; }
+.lg-link { margin-top: 28px; background: none; border: 0; border-bottom: 1px solid var(--green); padding: 0 0 4px; color: var(--green); font-family: inherit; font-size: 11px; font-weight: 700; letter-spacing: 1.4px; cursor: pointer; }
+
+@media (max-width: 520px) { .lg-card { padding: 36px 24px; } .lg-main { padding-top: 48px; } }
