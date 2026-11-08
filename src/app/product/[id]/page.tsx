@@ -34,17 +34,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
           setLoading(false);
           return;
         }
-        if (data) {
-          // ВРЕМЕННО: Добавляем картинки из папки assets для проверки карусели
-          const testImages = [
-            data.images[0],
-            '/assets/oak-pendant.webp',
-            '/assets/willow-ring.webp'
-          ];
-          setProduct({ ...data, images: testImages });
-        } else {
-          setProduct(null);
-        }
+        setProduct({ ...data, images: Array.isArray(data.images) ? data.images : [] });
       } catch (err) {
         console.error('System fetch error:', err);
       } finally {
