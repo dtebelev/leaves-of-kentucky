@@ -3,6 +3,9 @@ import { Header } from '@/components/Header';
 import { ProductCard } from '@/components/ProductCard';
 import { Product } from '@/types';
 
+// Always read the live inventory (new pieces, sold pieces) instead of freezing it at build time.
+export const dynamic = 'force-dynamic';
+
 export default async function ShopPage() {
   const { data: products, error } = await supabase
     .from('products')
