@@ -25,10 +25,26 @@ export default function AdminPage() {
 
   useEffect(() => {
     async function checkAdmin() {
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { session } } = await supabase.auth.getSession();
 
-      if (!user) {
+      if (!session) {
         router.push('/login');
+        return;
+      }
+
+      // Ask the server whether this user is the store owner.
+      let allowed = false;
+      try {
+        const res = await fetch('/api/admin/check', {
+          headers: { Authorization: `Bearer ${session.access_token}` },
+        });
+        allowed = res.ok && (await res.json()).isAdmin === true;
+      } catch {
+        allowed = false;
+      }
+
+      if (!allowed) {
+        router.push('/');
         return;
       }
 
