@@ -1,0 +1,57 @@
+/* Checkout page styles. All classes are prefixed "co-" so they cannot affect other pages. */
+
+.co-page { min-height: 100vh; background: var(--paper); font-family: var(--sans); color: var(--ink); }
+.co-main { max-width: 1180px; margin: 0 auto; padding: 72px 5% 100px; }
+
+.co-empty { text-align: center; padding: 110px 5% 140px; }
+.co-empty h1 { font-family: var(--serif); font-size: 48px; font-weight: 500; line-height: 1.1; margin: 0 0 28px; letter-spacing: -.6px; }
+
+.co-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+@media (max-width: 900px) { .co-grid { grid-template-columns: 1fr; gap: 40px; } .co-main { padding-top: 44px; } }
+
+.co-title { font-family: var(--serif); font-size: 52px; font-weight: 500; line-height: 1.05; margin: 0 0 36px; letter-spacing: -.6px; }
+
+.co-form-card { background: #fff; border: 1px solid var(--line); padding: 40px; box-shadow: 0 1px 2px rgba(22, 42, 32, .05); }
+@media (max-width: 520px) { .co-form-card { padding: 28px 22px; } }
+
+.co-step { margin-bottom: 32px; }
+.co-step-title { font-size: 10px; font-weight: 700; letter-spacing: 2px; color: var(--green); margin: 0 0 16px; }
+.co-label { display: block; font-size: 10px; font-weight: 600; letter-spacing: 1.6px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.co-input { width: 100%; height: 56px; border: 1px solid var(--line); background: #fff; padding: 0 18px; font-family: inherit; font-size: 15px; color: var(--ink); outline: none; border-radius: 0; transition: border-color .2s; }
+.co-input::placeholder { color: #a3a89f; }
+.co-input:focus { border-color: var(--green); }
+.co-note { background: #f0f1e8; padding: 22px 24px; font-family: var(--serif); font-size: 15px; line-height: 1.6; color: var(--muted); margin: 0; }
+
+.co-error { color: #b91c1c; font-size: 13px; line-height: 1.5; margin: 0 0 16px; }
+
+.co-btn { width: 100%; min-height: 58px; border: 1px solid transparent; background: var(--green); color: #fff; display: inline-flex; align-items: center; justify-content: center; gap: 14px; font-family: inherit; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: background .2s, transform .2s; }
+.co-btn:hover { background: var(--green-deep); transform: translateY(-2px); }
+.co-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+.co-btn-auto { width: auto; padding: 0 40px; }
+
+.co-trust { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin-top: 24px; padding-top: 22px; border-top: 1px solid var(--line); }
+.co-trust span { display: inline-flex; align-items: center; gap: 8px; font-size: 9px; font-weight: 600; letter-spacing: 1.2px; color: var(--muted); }
+
+.co-summary { background: #f7f6ef; border: 1px solid var(--line); padding: 36px; position: sticky; top: 120px; }
+@media (max-width: 900px) { .co-summary { position: static; } }
+@media (max-width: 520px) { .co-summary { padding: 28px 22px; } }
+.co-summary-title { font-size: 10px; font-weight: 700; letter-spacing: 2px; color: var(--green); margin: 0 0 24px; }
+
+.co-items { display: flex; flex-direction: column; gap: 22px; margin-bottom: 28px; }
+.co-item { display: flex; gap: 16px; align-items: flex-start; }
+.co-thumb { width: 64px; height: 80px; background: #e9e8de; flex-shrink: 0; overflow: hidden; }
+.co-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.co-item-info { flex: 1; min-width: 0; }
+.co-item-name { font-family: var(--serif); font-size: 18px; font-weight: 500; line-height: 1.2; margin: 0; }
+.co-item-qty { font-size: 11px; color: var(--muted); margin-top: 4px; }
+.co-item-price { font-size: 14px; font-weight: 500; white-space: nowrap; }
+
+.co-totals { border-top: 1px solid var(--line); padding-top: 22px; }
+.co-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 12px; }
+.co-total { display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid var(--line); padding-top: 16px; margin-top: 4px; font-family: var(--serif); font-size: 24px; font-weight: 500; }
+.co-total span:last-child { color: var(--copper); }
+
+.co-ship { display: flex; gap: 14px; align-items: flex-start; margin-top: 28px; color: var(--green); }
+.co-ship svg { flex-shrink: 0; }
+.co-ship p { margin: 0; font-size: 12px; line-height: 1.6; color: var(--muted); }
+.co-ship strong { color: var(--ink); }

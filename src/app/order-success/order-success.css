@@ -1,0 +1,26 @@
+/* Order-success page styles. All classes are prefixed "os-" so they cannot affect other pages. */
+
+.os-page { min-height: 100vh; background: var(--paper); font-family: var(--sans); color: var(--ink); }
+.os-main { display: flex; justify-content: center; padding: 80px 5% 110px; }
+.os-card { width: 100%; max-width: 720px; background: #fff; border: 1px solid var(--line); padding: 64px 56px; text-align: center; box-shadow: 0 1px 2px rgba(22, 42, 32, .05); }
+@media (max-width: 620px) { .os-card { padding: 40px 24px; } .os-main { padding-top: 44px; } }
+
+.os-badge { width: 84px; height: 84px; border-radius: 50%; border: 2px solid var(--green); color: var(--green); display: flex; align-items: center; justify-content: center; margin: 0 auto 32px; }
+.os-eyebrow { display: block; font-size: 9px; font-weight: 600; letter-spacing: 2.4px; color: var(--green-soft); }
+.os-title { font-family: var(--serif); font-size: 56px; font-weight: 500; line-height: 1.05; margin: 12px 0 0; letter-spacing: -.8px; }
+@media (max-width: 620px) { .os-title { font-size: 40px; } }
+.os-lead { font-family: var(--serif); font-size: 21px; line-height: 1.55; color: var(--muted); margin: 24px auto 0; max-width: 560px; }
+
+.os-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 40px; }
+.os-btn { min-height: 58px; padding: 0 40px; border: 1px solid transparent; display: inline-flex; align-items: center; justify-content: center; font-family: inherit; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: background .2s, transform .2s; }
+.os-btn:hover { transform: translateY(-2px); }
+.os-btn-dark { background: var(--green); color: #fff; }
+.os-btn-dark:hover { background: var(--green-deep); }
+.os-btn-outline { background: transparent; border-color: #8b998c; color: var(--green); }
+.os-btn-outline:hover { background: #e8ebdf; }
+
+.os-info { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; gap: 32px; text-align: left; }
+@media (max-width: 620px) { .os-info { grid-template-columns: 1fr; gap: 24px; } }
+.os-info h3 { font-size: 10px; font-weight: 700; letter-spacing: 2px; color: var(--green); margin: 0 0 12px; }
+.os-info p { font-size: 13px; line-height: 1.7; color: var(--muted); margin: 0; }
+.os-info a { color: var(--green); text-decoration: underline; }
