@@ -4,6 +4,8 @@ import { supabase } from '@/lib/supabase';
 
 const MAX_LINE_ITEMS = 10; // Stripe metadata values are limited to 500 chars
 const MAX_QUANTITY_NON_UNIQUE = 10;
+const FREE_SHIPPING_THRESHOLD_CENTS = 75_00;
+const SHIPPING_FEE_CENTS = 12_00;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 class CheckoutError extends Error {
@@ -108,10 +110,25 @@ export async function POST(req: Request) {
       };
     });
 
+    // Shipping rule (must match the storefront): free from $75, otherwise $12. Computed server-side.
+    const subtotalCents = lineItems.reduce((sum, li) => sum + li.price_data.unit_amount * li.quantity, 0);
+    const shippingCents = subtotalCents >= FREE_SHIPPING_THRESHOLD_CENTS ? 0 : SHIPPING_FEE_CENTS;
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
+      // The store ships within the U.S.; collect the address on the Stripe page.
+      shipping_address_collection: { allowed_countries: ['US'] },
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            type: 'fixed_amount',
+            fixed_amount: { amount: shippingCents, currency: 'usd' },
+            display_name: shippingCents === 0 ? 'Free Standard Shipping (1-2 Days)' : 'Standard Shipping (1-2 Days)',
+          },
+        },
+      ],
       success_url: `${siteUrl}/order-success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/checkout`,
       customer_email: email,
