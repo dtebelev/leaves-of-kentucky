@@ -2,6 +2,7 @@ import { supabase } from '@/lib/supabase';
 import { Header } from '@/components/Header';
 import { ProductCard } from '@/components/ProductCard';
 import { Product } from '@/types';
+import './shop.css';
 
 // Always read the live inventory (new pieces, sold pieces) instead of freezing it at build time.
 export const dynamic = 'force-dynamic';
@@ -20,8 +21,8 @@ export default async function ShopPage() {
     <div className="site-wrapper">
       <Header />
 
-      <main className="section-shell py-12 md:py-20">
-        <div className="shop-top mb-12">
+      <main className="section-shell shp-main">
+        <div className="shop-top shp-top">
           <div className="section-heading">
             <span className="eyebrow">THE COLLECTION</span>
             <h2>Jewelry with a story</h2>
@@ -47,7 +48,7 @@ export default async function ShopPage() {
         )}
       </main>
 
-      <footer className="site-footer mt-20">
+      <footer className="site-footer">
         <div className="footer-brand">
           <div className="brand brand-light flex items-center gap-[15px]">
             <svg className="w-[34px] h-[49px] text-[#d9dfcc]" viewBox="0 0 48 66" fill="none" stroke="currentColor" strokeWidth="1.5">

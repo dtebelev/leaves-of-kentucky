@@ -1,0 +1,14 @@
+/* Spacing for the /shop page only. Classes are prefixed "shp-". */
+
+.section-shell.shp-main { padding-top: 72px; padding-bottom: 110px; }
+.shp-top { margin-bottom: 56px; }
+
+/* Slimmer dark-green footer band on the shop page */
+.shp-main + .site-footer { padding: 34px 6% 16px; gap: 20px; }
+.shp-main + .site-footer .footer-brand > p { margin-top: 14px; }
+.shp-main + .site-footer .footer-bottom { margin-top: 0; padding-top: 16px; }
+
+@media (max-width: 760px) {
+  .section-shell.shp-main { padding-top: 44px; padding-bottom: 72px; }
+  .shp-top { margin-bottom: 36px; }
+}
