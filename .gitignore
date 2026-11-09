@@ -12,7 +12,6 @@ yarn-error.log*
 .turbo
 memory/
 docs/superpowers/
-HANDOFF.md
 launch-report.html
 index.html
 app.js
