@@ -27,5 +27,7 @@ Next.js 15.5.29 (App Router), React 19.3, Supabase (table `products`, bucket `pr
 2. **Deploy** (Vercel/Netlify) from `CLEAN_SHOP`: set the same env vars on the host, create a Stripe webhook for `https://<site>/api/webhook` (events: `checkout.session.completed`, `checkout.session.async_payment_succeeded`).
 3. **Admin polish**: the "Edit" button does nothing; confirm adding a product with photos works under the new RLS. `AddProductForm` does not set `is_unique`.
 4. **Order handling**: `/order-success` clears the cart on any visit (no `session_id` check); there is no `orders` table (shipping address lives only in Stripe); a duplicate payment for an already-sold one-of-a-kind piece is only logged and must be refunded by hand.
-5. `npm audit` still reports PostCSS issues bundled inside Next (fix needs Next 16, a breaking change; deliberately skipped, build-time only).
-6. Optional: replace the deprecated auth approach with `@supabase/ssr` if server-side auth is ever needed.
+5. **Replace the legacy Supabase key before early 2027.** Supabase is retiring legacy API keys. `NEXT_PUBLIC_SUPABASE_ANON_KEY` should be swapped for the new **publishable key** (`sb_publishable_...`, Supabase → Project Settings → API Keys), both in `.env.local` and in the hosting env vars at deploy time. `SUPABASE_SERVICE_ROLE_KEY` already holds the new **secret key** (`sb_secret_...`). After swapping, re-test login, /admin and /shop.
+6. The Stripe keys in use belong to the "Cobbleline sandbox" test account. Before real sales the store needs its own Stripe account and live keys.
+7. `npm audit` still reports PostCSS issues bundled inside Next (fix needs Next 16, a breaking change; deliberately skipped, build-time only).
+8. Optional: replace the deprecated auth approach with `@supabase/ssr` if server-side auth is ever needed.
