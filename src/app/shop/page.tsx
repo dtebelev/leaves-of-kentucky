@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase';
 import { Header } from '@/components/Header';
-import { ProductCard } from '@/components/ProductCard';
+import { ShopGrid } from '@/components/ShopGrid';
 import { Product } from '@/types';
 import './shop.css';
 
@@ -33,11 +33,7 @@ export default async function ShopPage() {
           </p>
         </div>
 
-        <div className="products-grid">
-          {products?.map((product: Product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        <ShopGrid products={(products ?? []) as Product[]} />
 
         {(!products || products.length === 0) && (
           <div className="py-32 text-center">

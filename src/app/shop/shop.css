@@ -3,6 +3,12 @@
 .section-shell.shp-main { padding-top: 72px; padding-bottom: 110px; }
 .shp-top { margin-bottom: 56px; }
 
+/* Category filter row */
+.shp-filters { display: flex; flex-wrap: wrap; gap: 8px 30px; margin: -20px 0 44px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+.shp-filter { background: none; border: 0; padding: 6px 0; font-family: inherit; font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); cursor: pointer; border-bottom: 1px solid transparent; transition: color .2s, border-color .2s; }
+.shp-filter:hover { color: var(--ink); }
+.shp-filter.is-active { color: var(--ink); border-bottom-color: var(--copper); }
+
 /* Slimmer dark-green footer band on the shop page */
 .shp-main + .site-footer { padding: 34px 6% 16px; gap: 20px; }
 .shp-main + .site-footer .footer-brand > p { margin-top: 14px; }
@@ -11,4 +17,5 @@
 @media (max-width: 760px) {
   .section-shell.shp-main { padding-top: 44px; padding-bottom: 72px; }
   .shp-top { margin-bottom: 36px; }
+  .shp-filters { gap: 4px 20px; margin: -10px 0 32px; }
 }
