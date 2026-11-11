@@ -6,10 +6,14 @@ import { createClient } from '@supabase/supabase-js';
 // NOTE: this only controls what the admin screen shows. The real protection of the data
 // is the database policies in supabase/admin-security.sql.
 export async function GET(req: Request) {
-  const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+  // ADMIN_EMAIL may hold several addresses separated by commas: "a@x.com,b@y.com"
+  const adminEmails = (process.env.ADMIN_EMAIL ?? '')
+    .split(',')
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean);
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!adminEmail || !url || !anonKey) {
+  if (adminEmails.length === 0 || !url || !anonKey) {
     console.error('Admin check: ADMIN_EMAIL or Supabase env is not configured');
     return NextResponse.json({ isAdmin: false }, { status: 500 });
   }
@@ -26,6 +30,6 @@ export async function GET(req: Request) {
     return NextResponse.json({ isAdmin: false }, { status: 401 });
   }
 
-  const isAdmin = data.user.email.toLowerCase() === adminEmail;
+  const isAdmin = adminEmails.includes(data.user.email.toLowerCase());
   return NextResponse.json({ isAdmin }, { status: isAdmin ? 200 : 403 });
 }

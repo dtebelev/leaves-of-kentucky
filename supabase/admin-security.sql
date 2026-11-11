@@ -15,13 +15,16 @@
 -- Safe to run again.
 -- =====================================================================
 
--- STEP 1: who is the owner? (edit the email on the next line)
+-- STEP 1: who are the admins? (edit the emails inside the array; add more separated by commas)
 create or replace function public.is_admin()
 returns boolean
 language sql
 stable
 as $$
-  select lower(coalesce(auth.jwt() ->> 'email', '')) = lower('YOUR_ADMIN_EMAIL@example.com');
+  select lower(coalesce(auth.jwt() ->> 'email', '')) = any (array[
+    lower('YOUR_ADMIN_EMAIL@example.com'),
+    lower('SECOND_ADMIN_EMAIL@example.com')
+  ]);
 $$;
 
 -- STEP 2: lock the products table
