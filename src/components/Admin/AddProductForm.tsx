@@ -12,7 +12,18 @@ interface ProductFormProps {
   product?: any;
 }
 
-const CATEGORIES = ['earrings', 'necklaces', 'bracelets', 'rings'];
+// Stored in lowercase (the shop shows them in capitals); the home page filters on these exact values.
+const CATEGORIES = [
+  'art shows',
+  'bracelets',
+  'brooches',
+  'earrings',
+  'hair pins',
+  'jewelry sets',
+  'necklaces',
+  'pendants',
+  'rings',
+];
 const MAX_IMAGES = 6;
 
 type GalleryItem = { url: string; file?: File };
@@ -184,7 +195,9 @@ export function AddProductForm({ onClose, onSuccess, product }: ProductFormProps
                     className="adm-select"
                   >
                     {categories.map(c => (
-                      <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>
+                      <option key={c} value={c}>
+                        {c.replace(/\b\w/g, (ch) => ch.toUpperCase())}
+                      </option>
                     ))}
                   </select>
                 </div>
