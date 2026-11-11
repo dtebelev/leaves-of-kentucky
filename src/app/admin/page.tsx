@@ -13,13 +13,15 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [editing, setEditing] = useState<any | null>(null);
   const router = useRouter();
 
   const fetchProducts = async () => {
     const { data } = await supabase
       .from('products')
       .select('*')
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })
+      .order('name', { ascending: true });
     setProducts(data || []);
   };
 
@@ -96,6 +98,15 @@ export default function AdminPage() {
           />
         )}
 
+        {editing && (
+          <AddProductForm
+            key={editing.id}
+            product={editing}
+            onClose={() => setEditing(null)}
+            onSuccess={fetchProducts}
+          />
+        )}
+
         <div className="adm-card">
           <table className="adm-table">
             <thead>
@@ -134,7 +145,7 @@ export default function AdminPage() {
                   </td>
                   <td>
                     <div className="adm-actions">
-                      <button className="adm-icon-btn" title="Edit">
+                      <button className="adm-icon-btn" title="Edit" onClick={() => setEditing(product)}>
                         <Edit2 size={16} />
                       </button>
                       <button

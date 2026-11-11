@@ -2,40 +2,53 @@
 
 import React, { useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { X, Upload, Loader2, Plus } from 'lucide-react';
+import { X, Upload, Loader2, Plus, Check } from 'lucide-react';
 import './admin.css';
 
-interface AddProductFormProps {
+interface ProductFormProps {
   onClose: () => void;
   onSuccess: () => void;
+  /** When given, the form edits this piece instead of creating a new one. */
+  product?: any;
 }
 
-export function AddProductForm({ onClose, onSuccess }: AddProductFormProps) {
+const CATEGORIES = ['earrings', 'necklaces', 'bracelets', 'rings'];
+const MAX_IMAGES = 6;
+
+type GalleryItem = { url: string; file?: File };
+
+export function AddProductForm({ onClose, onSuccess, product }: ProductFormProps) {
+  const isEdit = Boolean(product);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    price: '',
-    category: 'Earrings',
-    status: 'available'
+    name: product?.name ?? '',
+    description: product?.description ?? '',
+    price: product?.price != null ? String(product.price) : '',
+    category: String(product?.category ?? 'earrings').toLowerCase(),
+    status: product?.status === 'sold' ? 'sold' : 'available',
+    is_unique: product?.is_unique !== false,
   });
-  const [images, setImages] = useState<File[]>([]);
-  const [previews, setPreviews] = useState<string[]>([]);
+  const [gallery, setGallery] = useState<GalleryItem[]>(
+    Array.isArray(product?.images) ? product.images.map((url: string) => ({ url })) : []
+  );
   const [uploadError, setUploadError] = useState('');
+
+  const categories = CATEGORIES.includes(formData.category)
+    ? CATEGORIES
+    : [...CATEGORIES, formData.category];
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
-      setImages(prev => [...prev, ...files]);
-
-      const newPreviews = files.map(file => URL.createObjectURL(file));
-      setPreviews(prev => [...prev, ...newPreviews]);
+      setGallery(prev =>
+        [...prev, ...files.map(file => ({ url: URL.createObjectURL(file), file }))].slice(0, MAX_IMAGES)
+      );
+      e.target.value = '';
     }
   };
 
   const removeImage = (index: number) => {
-    setImages(prev => prev.filter((_, i) => i !== index));
-    setPreviews(prev => prev.filter((_, i) => i !== index));
+    setGallery(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -44,48 +57,65 @@ export function AddProductForm({ onClose, onSuccess }: AddProductFormProps) {
     setUploadError('');
 
     try {
-      if (images.length === 0) {
-        throw new Error('Please upload at least one image');
+      const price = parseFloat(formData.price);
+      if (!Number.isFinite(price) || price <= 0) {
+        throw new Error('Please enter a price greater than 0');
+      }
+      if (gallery.length === 0) {
+        throw new Error('Please add at least one image');
       }
 
-      // 1. Upload images to Supabase Storage
-      const imageUrls = [];
-      for (const file of images) {
-        const fileExt = file.name.split('.').pop();
-        const fileName = `${Math.random()}.${fileExt}`;
-        const filePath = `products/${fileName}`;
+      // 1. Upload only the newly added images to Supabase Storage; keep existing ones as they are.
+      const imageUrls: string[] = [];
+      for (const item of gallery) {
+        if (!item.file) {
+          imageUrls.push(item.url);
+          continue;
+        }
+        const fileExt = item.file.name.split('.').pop();
+        const filePath = `products/${crypto.randomUUID()}.${fileExt}`;
 
-        const { error: uploadError, data } = await supabase.storage
+        const { error: storageError } = await supabase.storage
           .from('product-images')
-          .upload(filePath, file);
-
-        if (uploadError) throw uploadError;
+          .upload(filePath, item.file);
+        if (storageError) throw storageError;
 
         const { data: { publicUrl } } = supabase.storage
           .from('product-images')
           .getPublicUrl(filePath);
-
         imageUrls.push(publicUrl);
       }
 
-      // 2. Insert product record
-      const { error: insertError } = await supabase
-        .from('products')
-        .insert({
-          name: formData.name,
-          description: formData.description,
-          price: parseFloat(formData.price),
-          category: formData.category,
-          status: formData.status,
-          images: imageUrls
-        });
+      // 2. Save the product record
+      const record = {
+        name: formData.name.trim(),
+        description: formData.description.trim(),
+        price,
+        category: formData.category,
+        status: formData.status,
+        is_unique: formData.is_unique,
+        images: imageUrls,
+      };
 
-      if (insertError) throw insertError;
+      if (isEdit) {
+        const { data, error: updateError } = await supabase
+          .from('products')
+          .update(record)
+          .eq('id', product.id)
+          .select('id');
+        if (updateError) throw updateError;
+        if (!data || data.length === 0) {
+          throw new Error('Nothing was saved. Please sign in again and retry.');
+        }
+      } else {
+        const { error: insertError } = await supabase.from('products').insert(record);
+        if (insertError) throw insertError;
+      }
 
       onSuccess();
       onClose();
     } catch (err: any) {
-      setUploadError(err.message || 'An error occurred during upload');
+      setUploadError(err.message || 'An error occurred while saving');
     } finally {
       setLoading(false);
     }
@@ -96,7 +126,7 @@ export function AddProductForm({ onClose, onSuccess }: AddProductFormProps) {
       <div className="adm-modal">
         <div className="adm-modal-head">
           <div>
-            <h2 className="adm-modal-title">Add New Piece</h2>
+            <h2 className="adm-modal-title">{isEdit ? 'Edit Piece' : 'Add New Piece'}</h2>
             <p className="adm-modal-sub">Inventory Management</p>
           </div>
           <button type="button" onClick={onClose} className="adm-close" aria-label="Close">
@@ -140,6 +170,7 @@ export function AddProductForm({ onClose, onSuccess }: AddProductFormProps) {
                     required
                     type="number"
                     step="0.01"
+                    min="0.5"
                     value={formData.price}
                     onChange={e => setFormData({ ...formData, price: e.target.value })}
                     className="adm-input"
@@ -152,11 +183,35 @@ export function AddProductForm({ onClose, onSuccess }: AddProductFormProps) {
                     onChange={e => setFormData({ ...formData, category: e.target.value })}
                     className="adm-select"
                   >
-                    <option>Earrings</option>
-                    <option>Necklaces</option>
-                    <option>Bracelets</option>
-                    <option>Home Decor</option>
+                    {categories.map(c => (
+                      <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>
+                    ))}
                   </select>
+                </div>
+              </div>
+
+              <div className="adm-row2">
+                <div>
+                  <label className="adm-label">Status</label>
+                  <select
+                    value={formData.status}
+                    onChange={e => setFormData({ ...formData, status: e.target.value })}
+                    className="adm-select"
+                  >
+                    <option value="available">Available</option>
+                    <option value="sold">Sold</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="adm-label">One-of-a-kind</label>
+                  <label className="adm-check">
+                    <input
+                      type="checkbox"
+                      checked={formData.is_unique}
+                      onChange={e => setFormData({ ...formData, is_unique: e.target.checked })}
+                    />
+                    <span>Only one exists (max 1 per order)</span>
+                  </label>
                 </div>
               </div>
             </div>
@@ -165,9 +220,9 @@ export function AddProductForm({ onClose, onSuccess }: AddProductFormProps) {
               <div>
                 <label className="adm-label">Gallery Images</label>
                 <div className="adm-gallery">
-                  {previews.map((preview, index) => (
-                    <div key={index} className="adm-gal-item">
-                      <img src={preview} alt="" />
+                  {gallery.map((item, index) => (
+                    <div key={item.url + index} className="adm-gal-item">
+                      <img src={item.url} alt="" />
                       <button
                         type="button"
                         onClick={() => removeImage(index)}
@@ -178,7 +233,7 @@ export function AddProductForm({ onClose, onSuccess }: AddProductFormProps) {
                       </button>
                     </div>
                   ))}
-                  {previews.length < 6 && (
+                  {gallery.length < MAX_IMAGES && (
                     <label className="adm-upload">
                       <Upload size={20} />
                       <span>UPLOAD</span>
@@ -186,7 +241,7 @@ export function AddProductForm({ onClose, onSuccess }: AddProductFormProps) {
                     </label>
                   )}
                 </div>
-                <p className="adm-hint">Up to 6 high-resolution images.</p>
+                <p className="adm-hint">Up to {MAX_IMAGES} images. The first one is the main photo.</p>
               </div>
 
               <div className="adm-submit-wrap">
@@ -194,7 +249,12 @@ export function AddProductForm({ onClose, onSuccess }: AddProductFormProps) {
                   {loading ? (
                     <>
                       <Loader2 size={16} className="adm-spin-icon" />
-                      PROCESSING...
+                      SAVING...
+                    </>
+                  ) : isEdit ? (
+                    <>
+                      <Check size={16} />
+                      SAVE CHANGES
                     </>
                   ) : (
                     <>

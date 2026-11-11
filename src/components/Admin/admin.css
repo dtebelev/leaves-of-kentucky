@@ -75,6 +75,8 @@
 .adm-upload:hover { border-color: var(--copper); background: rgba(168,103,67,.05); }
 .adm-upload span { font-size: 9px; font-weight: 700; letter-spacing: 1px; }
 .adm-upload input { display: none; }
+.adm-check { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--ink); cursor: pointer; padding: 8px 0; }
+.adm-check input { width: 16px; height: 16px; accent-color: var(--copper); cursor: pointer; flex: none; }
 .adm-hint { font-size: 10px; color: var(--muted); font-style: italic; margin: 0; }
 .adm-submit-wrap { padding-top: 40px; }
 .adm-spin-icon { animation: adm-spin 1s linear infinite; }
