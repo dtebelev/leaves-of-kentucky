@@ -10,8 +10,22 @@ import './order-success.css';
 export default function OrderSuccessPage() {
   const { clearCart } = useCart();
 
+  // Empty the bag only when Stripe confirms this session was really paid.
   useEffect(() => {
-    clearCart();
+    const sessionId = new URLSearchParams(window.location.search).get('session_id');
+    if (!sessionId) return;
+
+    let cancelled = false;
+    fetch(`/api/order-status?session_id=${encodeURIComponent(sessionId)}`)
+      .then((res) => (res.ok ? res.json() : { paid: false }))
+      .then((data) => {
+        if (!cancelled && data.paid) clearCart();
+      })
+      .catch(() => {});
+
+    return () => {
+      cancelled = true;
+    };
   }, [clearCart]);
 
   return (

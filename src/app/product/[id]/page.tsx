@@ -167,7 +167,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
                   <Truck size={18} />
                   <div>
                     <h4>Free Delivery</h4>
-                    <p>Complimentary shipping on all artisan pieces.</p>
+                    <p>Complimentary shipping on orders over $75.</p>
                   </div>
                 </div>
               </div>
