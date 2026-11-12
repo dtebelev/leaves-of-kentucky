@@ -41,7 +41,7 @@ export function Header() {
           {['Shop', 'Our story', 'Our process', 'Gifts', 'Contact'].map((item) => (
             <Link
               key={item}
-              href={item === 'Shop' ? '/shop' : `/#${item.toLowerCase().replace(' ', '')}`}
+              href={item === 'Shop' ? '/shop' : item === 'Our story' ? '/our-story' : `/#${item.toLowerCase().replace(' ', '')}`}
               className="nav-link"
             >
               {item}
@@ -141,7 +141,7 @@ export function Header() {
             {['Shop', 'Our story', 'Our process', 'Gifts', 'Contact'].map((item) => (
               <Link
                 key={item}
-                href={item === 'Shop' ? '/shop' : `/#${item.toLowerCase().replace(' ', '')}`}
+                href={item === 'Shop' ? '/shop' : item === 'Our story' ? '/our-story' : `/#${item.toLowerCase().replace(' ', '')}`}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="mobile-nav-link"
               >

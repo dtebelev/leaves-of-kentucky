@@ -1,0 +1,73 @@
+/* "Our Story" page only. Every class is prefixed "ab-" so nothing here can affect other pages. */
+
+.ab-main { overflow: hidden; }
+
+.ab-eyebrow { display: block; font-size: 10px; font-weight: 600; letter-spacing: 3px; color: var(--copper); }
+.ab-h2 { font-family: var(--serif); font-size: 48px; font-weight: 500; line-height: 1.08; letter-spacing: -.5px; color: var(--green); margin: 14px 0 28px; }
+
+/* Hero */
+.ab-hero { display: grid; grid-template-columns: 1.05fr .95fr; gap: 80px; align-items: center; max-width: 1240px; margin: 0 auto; padding: 96px 6% 80px; }
+.ab-title { font-family: var(--serif); font-size: 80px; font-weight: 500; line-height: 1; letter-spacing: -1.5px; color: var(--green); margin: 20px 0 0; }
+.ab-lead { font-family: var(--serif); font-style: italic; font-size: 26px; line-height: 1.5; color: var(--muted); margin: 32px 0 0; max-width: 520px; }
+.ab-hero-photo { position: relative; isolation: isolate; aspect-ratio: 4 / 5; box-shadow: var(--shadow); }
+.ab-hero-photo::after { content: ''; position: absolute; inset: 18px -18px -18px 18px; border: 1px solid var(--copper); opacity: .45; z-index: -1; }
+.ab-hero-photo img { object-fit: cover; }
+
+/* Intro about Elena */
+.ab-intro { max-width: 760px; margin: 0 auto; padding: 40px 6% 96px; text-align: center; }
+.ab-intro p { font-family: var(--serif); font-size: 24px; line-height: 1.65; color: var(--ink); margin: 0 0 22px; }
+.ab-intro .ab-big { font-size: 38px; line-height: 1.25; color: var(--green); margin-bottom: 34px; }
+.ab-intro .ab-big strong { font-weight: 600; color: var(--copper); }
+.ab-intro .ab-soft { font-style: italic; color: var(--green-soft); margin-top: 34px; }
+
+/* Photo + text */
+.ab-split { display: grid; grid-template-columns: .9fr 1.1fr; gap: 80px; align-items: center; max-width: 1240px; margin: 0 auto; padding: 40px 6% 110px; }
+.ab-split-photo { position: relative; aspect-ratio: 4 / 5; box-shadow: var(--shadow); }
+.ab-split-photo img { object-fit: cover; }
+.ab-split-copy p, .ab-close p { font-family: var(--serif); font-size: 22px; line-height: 1.7; color: var(--ink); margin: 0 0 18px; }
+.ab-emph { font-style: italic; font-size: 26px !important; color: var(--copper) !important; margin: 26px 0 !important; }
+
+/* Forest tale */
+.ab-tale-wrap { background: var(--cream); padding: 110px 6%; }
+.ab-tale { position: relative; max-width: 780px; margin: 0 auto; text-align: center; }
+.ab-tale-leaf { width: 40px; height: 56px; color: var(--copper); margin: 0 auto 28px; display: block; opacity: .8; }
+.ab-tale .ab-h2 { margin-bottom: 44px; }
+.ab-tale p { font-family: var(--serif); font-size: 24px; line-height: 1.7; color: var(--ink); margin: 0 0 24px; }
+.ab-tale .ab-emph { font-size: 30px !important; }
+.ab-tale-break { width: 90px; height: 1px; background: var(--copper); opacity: .5; margin: 52px auto; }
+
+/* Closing words */
+.ab-close { max-width: 760px; margin: 0 auto; padding: 110px 6% 60px; text-align: center; }
+.ab-close .ab-h2 { margin-bottom: 40px; }
+.ab-quote { margin: 56px 0; padding: 40px 0; border-top: 1px solid var(--copper); border-bottom: 1px solid var(--copper); font-family: var(--serif); font-style: italic; font-size: 38px; line-height: 1.3; color: var(--green); }
+.ab-sign { margin-top: 56px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.ab-sign em { font-family: var(--serif); font-size: 24px; color: var(--muted); }
+.ab-sign strong { font-family: var(--serif); font-size: 44px; font-weight: 500; font-style: italic; color: var(--green); line-height: 1.1; margin-top: 6px; }
+.ab-sign span { font-size: 10px; font-weight: 700; letter-spacing: 3px; color: var(--copper); }
+
+/* Photo strip + button */
+.ab-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1240px; margin: 0 auto; padding: 40px 6% 0; }
+.ab-strip-item { position: relative; aspect-ratio: 1; }
+.ab-strip-item img { object-fit: cover; }
+.ab-cta { text-align: center; padding: 56px 6% 120px; }
+
+@media (max-width: 900px) {
+  .ab-hero { grid-template-columns: 1fr; gap: 48px; padding: 56px 6% 56px; }
+  .ab-title { font-size: 52px; }
+  .ab-lead { font-size: 22px; }
+  .ab-hero-photo::after { inset: 12px -10px -12px 10px; }
+  .ab-intro { padding-bottom: 64px; }
+  .ab-intro p { font-size: 21px; }
+  .ab-intro .ab-big { font-size: 30px; }
+  .ab-split { grid-template-columns: 1fr; gap: 44px; padding-bottom: 72px; }
+  .ab-h2 { font-size: 36px; }
+  .ab-split-copy p, .ab-close p { font-size: 20px; }
+  .ab-tale-wrap { padding: 72px 6%; }
+  .ab-tale p { font-size: 21px; }
+  .ab-tale .ab-emph { font-size: 25px !important; }
+  .ab-close { padding-top: 72px; }
+  .ab-quote { font-size: 29px; padding: 30px 0; }
+  .ab-sign strong { font-size: 36px; }
+  .ab-strip { gap: 10px; }
+  .ab-cta { padding-bottom: 80px; }
+}
