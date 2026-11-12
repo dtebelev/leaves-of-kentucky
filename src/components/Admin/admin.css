@@ -80,3 +80,24 @@
 .adm-hint { font-size: 10px; color: var(--muted); font-style: italic; margin: 0; }
 .adm-submit-wrap { padding-top: 40px; }
 .adm-spin-icon { animation: adm-spin 1s linear infinite; }
+
+/* Tabs and orders list */
+.adm-tabs { display: flex; gap: 32px; border-bottom: 1px solid var(--line); margin: -12px 0 32px; }
+.adm-tab { background: none; border: 0; border-bottom: 2px solid transparent; padding: 10px 0; margin-bottom: -1px; font-family: inherit; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); cursor: pointer; }
+.adm-tab:hover { color: var(--ink); }
+.adm-tab.is-active { color: var(--ink); border-bottom-color: var(--copper); }
+.adm-tab-count { margin-left: 8px; font-size: 10px; background: var(--copper); color: #fff; border-radius: 999px; padding: 1px 7px; }
+
+.adm-orders { display: grid; gap: 20px; }
+.adm-order { background: #fff; border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(0,0,0,.05); padding: 24px; }
+.adm-order-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+.adm-order-date { font-size: 12px; color: var(--muted); }
+.adm-order-total { font-family: var(--serif); font-size: 28px; }
+.adm-order-warn { display: flex; gap: 8px; align-items: center; background: #fef3c7; color: #92400e; font-size: 12px; padding: 10px 12px; margin-bottom: 16px; }
+.adm-order-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.adm-order-line { display: flex; justify-content: space-between; gap: 16px; font-size: 14px; padding: 4px 0; }
+.adm-order-sub { color: var(--muted); border-top: 1px solid var(--line); margin-top: 6px; padding-top: 8px; }
+.adm-order-addr { font-size: 14px; line-height: 1.55; }
+.adm-order-foot { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); }
+.adm-order-track { flex: 1; min-width: 200px; }
+@media (max-width: 700px) { .adm-order-cols { grid-template-columns: 1fr; gap: 20px; } }

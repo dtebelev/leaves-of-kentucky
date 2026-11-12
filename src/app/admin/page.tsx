@@ -6,6 +6,7 @@ import { Header } from '@/components/Header';
 import { useRouter } from 'next/navigation';
 import { Plus, Edit2, Trash2, ExternalLink, Package } from 'lucide-react';
 import { AddProductForm } from '@/components/Admin/AddProductForm';
+import { OrdersPanel } from '@/components/Admin/OrdersPanel';
 import '@/components/Admin/admin.css';
 
 export default function AdminPage() {
@@ -14,6 +15,7 @@ export default function AdminPage() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editing, setEditing] = useState<any | null>(null);
+  const [tab, setTab] = useState<'inventory' | 'orders'>('inventory');
   const router = useRouter();
 
   const fetchProducts = async () => {
@@ -83,11 +85,32 @@ export default function AdminPage() {
       <main className="adm-main">
         <div className="adm-top">
           <div>
-            <h1 className="adm-title">Inventory Manager</h1>
-            <p className="adm-subtitle">Manage your handcrafted copper pieces.</p>
+            <h1 className="adm-title">{tab === 'orders' ? 'Orders' : 'Inventory Manager'}</h1>
+            <p className="adm-subtitle">
+              {tab === 'orders' ? 'See what to pack and where to send it.' : 'Manage your handcrafted copper pieces.'}
+            </p>
           </div>
-          <button onClick={() => setShowAddForm(true)} className="adm-btn">
-            <Plus size={16} /> ADD NEW PIECE
+          {tab === 'inventory' && (
+            <button onClick={() => setShowAddForm(true)} className="adm-btn">
+              <Plus size={16} /> ADD NEW PIECE
+            </button>
+          )}
+        </div>
+
+        <div className="adm-tabs">
+          <button
+            type="button"
+            className={`adm-tab ${tab === 'inventory' ? 'is-active' : ''}`}
+            onClick={() => setTab('inventory')}
+          >
+            Inventory
+          </button>
+          <button
+            type="button"
+            className={`adm-tab ${tab === 'orders' ? 'is-active' : ''}`}
+            onClick={() => setTab('orders')}
+          >
+            Orders
           </button>
         </div>
 
@@ -107,6 +130,9 @@ export default function AdminPage() {
           />
         )}
 
+        {tab === 'orders' && <OrdersPanel />}
+
+        {tab === 'inventory' && (
         <div className="adm-card">
           <table className="adm-table">
             <thead>
@@ -178,6 +204,7 @@ export default function AdminPage() {
             </div>
           )}
         </div>
+        )}
       </main>
     </div>
   );
