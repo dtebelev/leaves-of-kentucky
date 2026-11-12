@@ -36,6 +36,14 @@ Next.js 15.5.29 (App Router), React 19.3, Supabase (table `products`, bucket `pr
 - Reset a product to available only via SQL Editor (typing in the Table Editor once left a hidden typo in `status`): `update public.products set status='available' where name='...';` then verify `select name, status, length(status) from public.products;` (length must be 9). Test purchases leave pieces `sold`; Willow Leaf Ring and Birch Leaf Earrings may still need resetting.
 - Supabase also has unused tables `orders`, `order_items`, `profiles` (not used by the code). Decide later whether to add order tracking in the admin.
 
+## Added 2026-11-11 (after deploy)
+- **Orders**: Stripe webhook now saves each paid checkout into table `shop_orders` (SQL in `supabase/orders.sql`, already run); `/admin` has Inventory and Orders tabs (address, items, totals, "Mark as shipped" + tracking). Old tables `orders`, `order_items`, `profiles` are unused.
+- **Several admins**: `ADMIN_EMAIL` accepts comma-separated emails (Netlify + `.env.local`), and `public.is_admin()` in Supabase uses an array of emails. A second admin was added to both; the owner has not yet talked to that person to test their login.
+- **Our Story page** (`/our-story`, `src/app/our-story/`, scoped `ab-` CSS): Elena Young's text, linked from the header "Our story". Homepage story block now says Elena Young, "6 years of craft", "1 000+ one-of-a-kind pieces" (owner's numbers).
+- A standalone single-file preview of the Our Story page (images embedded) was generated outside the repo at `E:\LEAVES_OF_KENTUCKY_STORE\our-story-preview\index.html` so the owner can show it to the shop's boss before the whole site is shown. It is a snapshot: regenerate it if the page changes.
+- **Customer emails NOT built yet.** Stripe sends no receipts in test mode, and the site has no "shipped" email. Plan: Resend (owner already has an account) sending (1) order confirmation after payment and (2) "your order has shipped" (with tracking) when "Mark as shipped" is pressed; sender `hello@leavesofkentucky.com`. Blocked: the owner's domain leavesofkentucky.com currently hosts the OLD store, so the domain cannot be verified in Resend yet. Until then Resend can only send to the owner's own address (`onboarding@resend.dev`). The /order-success page already promises "Check your inbox for an order confirmation"; either build emails before launch or soften that text.
+- Open question: whether the "Powered by Netlify" badge disappears on the paid plan (Netlify: Project configuration -> General -> Powered by Netlify badge). Owner to check before paying.
+
 ## Remaining tasks (priority order)
 1. Reset test-sold pieces to `available` (SQL above). Optional: confirm the 409 rejection of an already sold piece at /checkout.
 2. **Custom domain** for Netlify (when the owner buys one): update NEXT_PUBLIC_SITE_URL and the Stripe webhook URL, then redeploy.

@@ -179,15 +179,15 @@ export default function HomePage() {
           <div className="story-card">
             <span className="large-quote">“</span>
             <blockquote>“I don’t create a leaf’s shape — nature already did that. My work is simply to help it stay with you a little longer.”</blockquote>
-            <div className="maker"><span className="maker-line"></span><div><strong>Emily Harper</strong><small>Founder & artisan</small></div></div>
+            <div className="maker"><span className="maker-line"></span><div><strong>Elena Young</strong><small>Founder & artisan</small></div></div>
           </div>
           <div className="story-side">
             <span className="eyebrow">A SMALL STUDIO. A LOT OF HEART.</span>
             <h2>Made slowly.<br/>Made to be worn.</h2>
             <p>We work in small batches in our Kentucky studio. No assembly lines, no identical forms — just thoughtful craftsmanship, honest materials, and leaves with stories of their own.</p>
             <div className="story-stats">
-              <div><strong>10</strong><span>years of craft</span></div>
-              <div><strong>1 800+</strong><span>one-of-a-kind pieces</span></div>
+              <div><strong>6</strong><span>years of craft</span></div>
+              <div><strong>1 000+</strong><span>one-of-a-kind pieces</span></div>
               <div><strong>100%</strong><span>handmade</span></div>
             </div>
           </div>
