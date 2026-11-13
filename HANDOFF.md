@@ -25,6 +25,13 @@ Next.js 15.5.29 (App Router), React 19.3, Supabase (table `products`, bucket `pr
 - **Test payment #1 PASSED (2026-11-10)**: two pieces, $132, free shipping, US address collected, `checkout.session.completed` received, both products became `sold` in /shop and /admin. Products were then reset to `available` via SQL.
 - **/order-success** now clears the cart only after `/api/order-status?session_id=...` confirms `payment_status === 'paid'` (commit f980ec6). Product page text fixed to "Complimentary shipping on orders over $75" (was wrongly "all pieces").
 
+## ALSO DEPLOYED ON VERCEL (2026-11-13): https://leaves-of-kentucky.vercel.app
+- Owner prefers Vercel long term (will pay $20 Vercel Pro and move the domain there; Hobby plan forbids commercial use). Netlify (free) stays live in parallel. Both sites share the same Supabase DB and auto-deploy from GitHub `main`.
+- Vercel project `leaves-of-kentucky` (team "my-infinity-gift"). Env vars (Settings -> Environment Variables, Production): NEXT_PUBLIC_SITE_URL (=https://leaves-of-kentucky.vercel.app), NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, ADMIN_EMAIL (Config); SUPABASE_SERVICE_ROLE_KEY, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET (Secret). NEXT_PUBLIC_* cannot be Secret. Changing a variable requires Deployments -> Redeploy. No code changes were needed.
+- Stripe sandbox has a second webhook destination "Vercel" -> https://leaves-of-kentucky.vercel.app/api/webhook (same two events); its own whsec_ is the Vercel STRIPE_WEBHOOK_SECRET. Supabase Redirect URLs include https://leaves-of-kentucky.vercel.app/**.
+- Tested on Vercel 2026-11-13: shop, magic-link login, admin, test purchase, order in Orders tab, webhook 200 — all OK.
+- When the domain moves to Vercel: update NEXT_PUBLIC_SITE_URL (Vercel), Stripe webhook URL, Supabase Site URL + Redirect URLs; then retire the Netlify site and its webhook. Live Stripe keys later: new keys + new live webhook secret must be set on Vercel (and Netlify if still alive).
+
 ## DEPLOYED (2026-11-10): https://leaves-of-kentucky.netlify.app
 - Hosting is **Netlify** (free plan for now; owner plans the ~$9/mo plan for real sales; Vercel Hobby forbids commercial use). Netlify team "MyInfinityGift", project `leaves-of-kentucky`, auto-deploys from GitHub `main` (every push rebuilds the site). Build: `npm run build`, Next.js runtime auto-detected.
 - Netlify env vars set: NEXT_PUBLIC_SITE_URL (=https://leaves-of-kentucky.netlify.app), NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY (secret), STRIPE_SECRET_KEY (secret), STRIPE_WEBHOOK_SECRET (secret, the Netlify destination's own whsec_), ADMIN_EMAIL. Changing a variable requires Deploys -> Trigger deploy.
